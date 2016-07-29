@@ -8,6 +8,8 @@
 
 #import "RootViewController.h"
 #import "DCPathButton.h"
+#import "MapViewController.h"
+
 @interface RootViewController ()<MilkHuntsmanTabBarDelegate,DCPathButtonDelegate>
 
 @end
@@ -33,21 +35,17 @@
     
     UIButton *btn5 = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [self setChildButton:btn5 title:@"我的" image:@"person" selected:@"personH"];
-
+    
     
     self.milkHuntsmanTabBar=[[MilkHuntsmanTabBar alloc] initWithItems:@[btn1,btn2,btn3,btn4,btn5] frame:CGRectMake(0, WindowHeight - 49, WindownWidth, 49)];
-    [self.view addSubview:self.milkHuntsmanTabBar];
-  //遵循代理
+    
+    //遵循代理
     self.milkHuntsmanTabBar.MilkHuntsmanDelegate = self;
+    
     btn3.selected = NO;
     btn3.hidden = YES;
-    [self configureDCPathButton];
-}
-
-- (void)configureDCPathButton
-{
-    // Configure center button
-    //
+    
+    
     DCPathButton *dcPathButton = [[DCPathButton alloc]initWithCenterImage:[UIImage imageNamed:@"chooser-button-tab"]
                                                          highlightedImage:[UIImage imageNamed:@"chooser-button-tab-highlighted"]];
     
@@ -70,42 +68,32 @@
                                                             backgroundImage:[UIImage imageNamed:@"chooser-moment-button"]
                                                  backgroundHighlightedImage:[UIImage imageNamed:@"chooser-moment-button-highlighted"]];
     
-    DCPathItemButton *itemButton_4 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"chooser-moment-icon-thought"]
-                                                           highlightedImage:[UIImage imageNamed:@"chooser-moment-icon-thought-highlighted"]
-                                                            backgroundImage:[UIImage imageNamed:@"chooser-moment-button"]
-                                                 backgroundHighlightedImage:[UIImage imageNamed:@"chooser-moment-button-highlighted"]];
     
-    DCPathItemButton *itemButton_5 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"chooser-moment-icon-sleep"]
+    DCPathItemButton *itemButton_4 = [[DCPathItemButton alloc]initWithImage:[UIImage imageNamed:@"chooser-moment-icon-sleep"]
                                                            highlightedImage:[UIImage imageNamed:@"chooser-moment-icon-sleep-highlighted"]
                                                             backgroundImage:[UIImage imageNamed:@"chooser-moment-button"]
                                                  backgroundHighlightedImage:[UIImage imageNamed:@"chooser-moment-button-highlighted"]];
     
-    // Add the item button into the center button
-    //
     [dcPathButton addPathItems:@[itemButton_1,
                                  itemButton_2,
                                  itemButton_3,
-                                 itemButton_4,
-                                 itemButton_5
+                                 itemButton_4
                                  ]];
     
-    // Change the bloom radius, default is 105.0f
-    //
     dcPathButton.bloomRadius = 120.0f;
     
-    // Change the DCButton's center
-    //
+    
     dcPathButton.dcButtonCenter = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height - 25.5f);
     
-    // Setting the DCButton appearance
-    //
+    
     dcPathButton.allowSounds = YES;
     dcPathButton.allowCenterButtonRotation = YES;
     
     dcPathButton.bottomViewColor = [UIColor grayColor];
     
     dcPathButton.bloomDirection = kDCPathButtonBloomDirectionTop;
-    
+    _dcButton = dcPathButton;
+    [self.view addSubview:self.milkHuntsmanTabBar];
     [self.view addSubview:dcPathButton];
     
 }
@@ -118,8 +106,36 @@
 - (void)pathButton:(DCPathButton *)dcPathButton clickItemButtonAtIndex:(NSUInteger)itemButtonIndex {
     NSLog(@"You tap %@ at index : %lu", dcPathButton, (unsigned long)itemButtonIndex);
     
-}
+    
+    
+    if (itemButtonIndex == 1) {
+        __weak typeof(self) weakSelf = self;
+        MapViewController *mapVC = [MapViewController new];
+        
+        mapVC.mapCityName = @"北京";
+        [self presentViewController:mapVC animated:YES completion:^{
+            UIView *textView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WindownWidth, 64)];
+            textView.backgroundColor = [UIColor colorWithRed:0.164 green:0.657 blue:0.915 alpha:1.000];
+            [mapVC.view addSubview:textView];
+            UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
+            button.frame = CGRectMake(WindownWidth - 60, 15, 40, 40);
+            [button setTitle:@"back" forState:(UIControlStateNormal)];
+            [button setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+            [textView addSubview:button];
+            [button addTarget:weakSelf action:@selector(backAction:) forControlEvents:(UIControlEventTouchUpInside)];
+            
+        }];
+        
+        
+    }
 
+    
+    
+}
+-(void)backAction:(UIButton *)button
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 - (void)didPresentDCPathButtonItems:(DCPathButton *)dcPathButton {
     
     NSLog(@"ItemButton did present");
@@ -130,13 +146,13 @@
 - (void)showTabBar{
     
     self.milkHuntsmanTabBar.hidden = NO;
-    
+    self.dcButton.hidden = NO;
 }
 
 - (void)hiddenTabBar{
     
     self.milkHuntsmanTabBar.hidden = YES;
-    
+    self.dcButton.hidden = YES;
 }
 
 -(UIButton *)setChildButton:(UIButton *)button

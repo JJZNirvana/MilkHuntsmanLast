@@ -7,10 +7,13 @@
 //
 
 #import "BaseViewController.h"
-
+#import "FindModel.h"
 @interface WebViewController1 : BaseViewController
 
 //传递动态ID,属性传值
 @property (nonatomic, strong) NSString *passID;
+
+@property (nonatomic, strong) FindModel *model;
+
 
 @end

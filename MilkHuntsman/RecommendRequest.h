@@ -11,6 +11,8 @@
 @interface RecommendRequest : NSObject
 +(instancetype)shareRecommendRequest;
 - (void)recommendRequestWithParameter:(NSDictionary *)parameter success:(SuccessResponse)success failure:(FailureResponse)failure;
-- (void)recommendRequestMoreUrlWithParameter:(NSDictionary *)parameter success:(SuccessResponse)success failure:(FailureResponse)failure;
-- (void)recommendRequestUrlWithParameter:(NSDictionary *)parameter success:(SuccessResponse)success failure:(FailureResponse)failure;
+- (void)recommendRequestAddressWithParameter:(NSDictionary *)parameter success:(SuccessResponse)success failure:(FailureResponse)failure;
+- (void)recommendRequestListWithParameter:(NSDictionary *)parameter success:(SuccessResponse)success failure:(FailureResponse)failure;
+//button-----
+-(void)recommendRequestButtonWithParameter:(NSDictionary *)parameter success:(SuccessResponse)success failure:(FailureResponse)failure;
 @end

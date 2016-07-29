@@ -10,25 +10,39 @@
 #import "LPSegmentedControl.h"
 #import "InternalView.h"
 #import "ExternalView.h"
-@interface CityViewController ()<UIScrollViewDelegate>
+
+@interface CityViewController ()<UIScrollViewDelegate,UITableViewDelegate>
+
 @property (nonatomic, strong) UIButton *recommendBackBtn;
 @property (nonatomic, strong) UIScrollView *scrollView;
-
-
+@property (nonatomic, strong) InternalView *internalView;
+@property (nonatomic, strong) ExternalView *externalView;
 @property LPSegmentedControl *segmentedControl;
 @property UIView *visibleExampleView;
 @property NSArray *exampleViews;
 
-
 @end
 
 @implementation CityViewController
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [GiFHUD show];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [GiFHUD dismiss];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor cyanColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
+
     //初始化scrollView
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 90, WindownWidth, self.view.frame.size.height - 150)];
     self.scrollView.backgroundColor = [UIColor cyanColor];
@@ -37,8 +51,9 @@
     [self.view addSubview:self.scrollView];
     self.scrollView.delegate = self;
     [self addAllViews];
-    
+
 }
+
 - (void)addAllViews
 {
     self.recommendBackBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -50,12 +65,12 @@
 
     
 #pragma mark --添加两个tableview
-    InternalView *internalView = [[InternalView alloc] initWithFrame:CGRectMake(0, 0, WindownWidth, self.view.frame.size.height - 90)];
-    [self.scrollView addSubview:internalView];
-    ExternalView *externalView = [[ExternalView alloc] initWithFrame:CGRectMake(WindownWidth, 0, WindownWidth, self.view.frame.size.height - 90)];
-    [self.scrollView addSubview:externalView];
-    
-    
+    _internalView = [[InternalView alloc] initWithFrame:CGRectMake(0, 0, WindownWidth, self.view.frame.size.height - 90)];
+    [self.scrollView addSubview:_internalView];
+    _externalView = [[ExternalView alloc] initWithFrame:CGRectMake(WindownWidth, 0, WindownWidth, self.view.frame.size.height - 90)];
+    [self.scrollView addSubview:_externalView];
+    self.externalView.xternalTableView.delegate = self;
+    self.internalView.internalTableView.delegate = self;
     [self addSegment];
     
 }
@@ -68,15 +83,11 @@
     segmentedControl.selectedTitleTextColor = [UIColor cyanColor];
     segmentedControl.selectedTitleFont = [UIFont systemFontOfSize:16.0f];
     segmentedControl.segmentIndicatorBackgroundColor = [UIColor whiteColor];
-    
-    
-//    segmentedControl.backgroundColor = [UIColor cyanColor];
     segmentedControl.borderWidth = 0.0f;
     segmentedControl.segmentIndicatorBorderWidth = 0.0f;
     segmentedControl.segmentIndicatorInset = 1.0f;
     segmentedControl.segmentIndicatorBorderColor = self.view.backgroundColor;
     [segmentedControl sizeToFit];
-    
     
     segmentedControl.cornerRadius = CGRectGetHeight(segmentedControl.frame) / 2.0f;
     segmentedControl.center = CGPointMake(self.view.center.x, self.view.center.y + 30.0f);
@@ -87,19 +98,25 @@
     self.exampleViews = @[self.view];
     
 }
-- (UIStatusBarStyle)preferredStatusBarStyle {
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     return UIStatusBarStyleLightContent;
 }
 #pragma mark -- SegmentedControl 点击方法
-- (void)valueChanged:(UISegmentedControl *)sender {
+- (void)valueChanged:(UISegmentedControl *)sender
+{
     [self.scrollView setContentOffset:CGPointMake(WindownWidth * sender.selectedSegmentIndex, 0)];
     
 }
 #pragma mark -- 停止滑动时方法
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
     self.segmentedControl.selectedSegmentIndex = self.scrollView.contentOffset.x/WindownWidth;
 }
-- (void)segmentSelected {
+
+- (void)segmentSelected
+{
     UIView *exampleViewToShow = self.exampleViews[self.segmentedControl.selectedSegmentIndex];
     if (self.visibleExampleView == exampleViewToShow) {
         return;
@@ -116,6 +133,15 @@
         
     }];
 }
+#pragma mark -- tableView跳转
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak typeof(self) weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        weakSelf.passString([tableView cellForRowAtIndexPath:indexPath].textLabel.text);
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

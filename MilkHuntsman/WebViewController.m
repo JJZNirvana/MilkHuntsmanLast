@@ -25,6 +25,11 @@
 
 //加载一个view挡住网页版的标题
 - (void)viewWillAppear:(BOOL)animated{
+    [GiFHUD show];
+    RootViewController *milk = (RootViewController *)self.navigationController.parentViewController;
+    
+    [milk hiddenTabBar];
+
     UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 414, 25)];
     view1.backgroundColor = [UIColor colorWithRed:0.29 green:0.74 blue:0.80 alpha:1.00];
     [self.view addSubview:view1];
@@ -46,7 +51,16 @@
     
     
 }
-
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [GiFHUD dismiss];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    RootViewController *milk = (RootViewController *)self.navigationController.parentViewController;
+    
+    [milk showTabBar];
+}
 - (void)addItem{
     UIBarButtonItem *rightItem1 = [[UIBarButtonItem alloc] initWithTitle:@"收藏" style:(UIBarButtonItemStylePlain) target:self action:@selector(rightItemCollertAction:)];
     self.collectItem = rightItem1;

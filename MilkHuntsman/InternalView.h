@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "RecommendRequest.h"
 @interface InternalView : UIView<UITableViewDataSource,UITableViewDelegate>
+
 @property (nonatomic, strong) UITableView *internalTableView;
 @property (nonatomic, strong) NSMutableArray *internalCityArr;
+
 @end

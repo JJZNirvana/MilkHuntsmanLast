@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 @protocol ThirdCellDelegate <NSObject>
 
-- (void)thirdChangePage;
+- (void)thirdChangePageBySelected:(NSInteger)selectedIndex;
 
 @end
+
 @interface ThirdTableViewCell : UITableViewCell
+
 @property (nonatomic, strong) UIImageView *litileImageView;
 @property (nonatomic, strong) UIImageView *bigImageView;
 @property (nonatomic, strong) UIImageView *imageV;
@@ -24,4 +26,7 @@
 @property (nonatomic, strong) UIView *tempView;
 @property (nonatomic, assign)id<ThirdCellDelegate> thirdDelegate;
 @property (nonatomic, strong) NSMutableArray *thirdArr;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+@property (nonatomic, assign) int currentIndext;
+
 @end

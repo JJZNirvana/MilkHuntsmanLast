@@ -43,5 +43,6 @@
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, copy) NSString *trip_id;
+@property (nonatomic, copy) NSDictionary *user;
 
 @end

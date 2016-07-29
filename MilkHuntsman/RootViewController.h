@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "MilkHuntsmanTabBar.h"
+#import "DCPathButton.h"
+
 @interface RootViewController : UITabBarController
 
 @property(nonatomic,strong)MilkHuntsmanTabBar *milkTabBar;
@@ -15,5 +17,5 @@
 - (void)hiddenTabBar;
 
 @property (nonatomic, strong) MilkHuntsmanTabBar *milkHuntsmanTabBar;
-
+@property (nonatomic,strong) DCPathButton *dcButton;
 @end

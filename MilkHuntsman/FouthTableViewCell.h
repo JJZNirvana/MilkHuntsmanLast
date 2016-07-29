@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "RecommendModel.h"
 @interface FouthTableViewCell : UITableViewCell
+
 @property (strong, nonatomic) UIView *bigView;
 @property (strong, nonatomic) UIImageView *bigImageView;
 @property (strong, nonatomic) UILabel *addressLabel;
@@ -16,4 +17,7 @@
 @property (strong, nonatomic) UIView *litileView;
 @property (strong, nonatomic) UIImageView *litileImageView;
 @property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) NSMutableArray *fouthArray;
+@property (nonatomic, strong) RecommendModel *recommendmodel;
+
 @end

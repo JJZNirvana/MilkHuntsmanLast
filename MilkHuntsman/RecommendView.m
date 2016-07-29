@@ -9,6 +9,7 @@
 #import "RecommendView.h"
 
 @implementation RecommendView
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -21,14 +22,14 @@
 
 - (void)addAllViews
 {
-    NSArray *array = @[@"http://photos.breadtrip.com/covers_2016_07_11_384a17b54e2ceda1b7d34c6f695e0f32.jpg?imageView/2/w/960/",
+    NSArray *array = @[
+                       @"http://photos.breadtrip.com/covers_2016_07_11_384a17b54e2ceda1b7d34c6f695e0f32.jpg?imageView/2/w/960/",
+                       @"http://photos.breadtrip.com/covers_2016_07_16_37a1cf9b73c40e0ef66c8befc09993d4.jpg?imageView/2/w/960/",
                        @"http://photos.breadtrip.com/covers_2016_07_12_26fba97023f3b458989df223e2105f76.png",
-                       @"http://photos.breadtrip.com/covers_2016_07_06_2a082b67fe8f30201cfb9e9bce96c3dd.jpg",
-                       @"http://photos.breadtrip.com/covers_2016_07_06_e02e404c65114c5c111ef5337ca05be7.png?imageView/2/w/960/",
+                       @"http://photos.breadtrip.com/covers_2016_07_19_66b4b1f3c831ffe973f0dd3e28bfbaac.png?imageView/2/w/960/",
                        @"http://photos.breadtrip.com/covers_2016_06_15_30253350df414dc860d652e1e641be32.jpg?imageView/2/w/960/"];
     
     //---------------添加两个button--------------------
-    
     
     self.searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.searchBtn.frame = CGRectMake(10, 0, WindownWidth - 80, 44);
@@ -50,7 +51,7 @@
 
     //---------------添加轮播图---------------------------
     self.recommendScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, WindownWidth, 150)];
-    self.recommendScrollView.contentSize = CGSizeMake(WindownWidth * 6, 0);
+    self.recommendScrollView.contentSize = CGSizeMake(WindownWidth * 5, 0);
     self.recommendScrollView.pagingEnabled = YES;
     NSInteger kHeight = self.recommendScrollView.frame.size.height;
     for (int i = 0; i < array.count; i ++) {
@@ -73,8 +74,8 @@
     self.recommendPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(WindownWidth * 0.38, kHeight + 10, WindownWidth * 0.3, 30)];
     self.recommendPageControl.numberOfPages = array.count;
     [self addSubview:self.recommendPageControl];
-    self.recommendPageControl.pageIndicatorTintColor = [UIColor redColor];
-    self.recommendPageControl.currentPageIndicatorTintColor = [UIColor greenColor];
+    self.recommendPageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    self.recommendPageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
     [self.recommendPageControl addTarget:self action:@selector(pageControllAction:) forControlEvents:(UIControlEventValueChanged)];
     self.recommendScrollView.delegate = self;
     [self setupTimer];
@@ -82,7 +83,7 @@
 
 - (void)tapAction:(UITapGestureRecognizer *)sender
 {
-    [self.imageViewDelegate changePage];
+    [self.imageViewDelegate changePageByIndext:self.recommendPageControl.currentPage];
 }
 
 #pragma mark -- pageControll 的触发方法(轮播)

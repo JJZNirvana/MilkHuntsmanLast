@@ -9,8 +9,9 @@
 #import "BaseViewController.h"
 
 @interface RecommendViewController : BaseViewController
-#warning ----
+
 @property (nonatomic, strong) NSMutableArray *array;
 @property (nonatomic, strong) NSMutableArray *twoArray;
 @property (nonatomic, strong) NSMutableArray *threeArray;
+
 @end

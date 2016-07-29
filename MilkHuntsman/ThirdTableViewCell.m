@@ -19,15 +19,16 @@
     }
     return self;
 }
+
 - (void)addAllViews
 {
-    _thirdArr = [NSMutableArray array];
+
     self.scrollView = [UIScrollView new];
     [self.contentView addSubview:self.scrollView];
     
 }
 
--(void)layoutSubviews
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     
@@ -40,8 +41,9 @@
         self.tempView = [[UIView alloc] initWithFrame:CGRectMake(kWidth * i + 5, 5, kWidth - 5, kHeight)];
         self.tempView.layer.cornerRadius = 10;
         self.tempView.layer.masksToBounds = YES;
-        self.tempView.backgroundColor = [UIColor lightGrayColor];
+        self.tempView.backgroundColor = [UIColor whiteColor];
         [self.scrollView addSubview:self.tempView];
+        self.scrollView.backgroundColor = [UIColor whiteColor];
         
         //-------------------在tempView上添加imageView-------------
         self.bigImageView = [UIImageView new];
@@ -51,10 +53,11 @@
         [self.tempView addSubview:self.bigImageView];
         [self.tempView addSubview:self.litileImageView];
         
-        self.bigImageView.backgroundColor = [UIColor redColor];
-        self.litileImageView.backgroundColor = [UIColor greenColor];
+        self.bigImageView.backgroundColor = [UIColor clearColor];
+        self.litileImageView.backgroundColor = [UIColor clearColor];
         self.litileImageView.layer.cornerRadius = self.litileImageView.bounds.size.width / 2;
         self.litileImageView.layer.masksToBounds = YES;
+        
         //------------------在tempView上添加label---------------
         self.nameLabel = [UILabel new];
         self.descriptionLabel = [UILabel new];
@@ -65,10 +68,10 @@
         self.descriptionLabel.numberOfLines = 0;
         self.addressLabel.frame = CGRectMake(kWidth - 100, 10, 90, 30);
         self.activityLabel.frame = CGRectMake(10, CGRectGetMaxY(self.descriptionLabel.frame), kWidth - 10, 35);
-        self.activityLabel.backgroundColor = [UIColor purpleColor];
-        self.addressLabel.backgroundColor = [UIColor magentaColor];
-        self.nameLabel.backgroundColor = [UIColor yellowColor];
-        self.descriptionLabel.backgroundColor = [UIColor cyanColor];
+        self.activityLabel.backgroundColor = [UIColor clearColor];
+        self.addressLabel.backgroundColor = [UIColor clearColor];
+        self.nameLabel.backgroundColor = [UIColor clearColor];
+        self.descriptionLabel.backgroundColor = [UIColor clearColor];
         [self.tempView addSubview:self.nameLabel];
         [self.tempView addSubview:self.descriptionLabel];
         [self.tempView addSubview:self.addressLabel];
@@ -79,27 +82,31 @@
         self.descriptionLabel.numberOfLines = 0;
         
 //-----------------------赋值--------------------------
-//        [self.litileImageView setImageWithURL:[NSURL URLWithString:_thirdArr[i][@"user"][@"avatar_l"]]];
-//        [self.bigImageView setImageWithURL:[NSURL URLWithString:_thirdArr[i][@"title_page"]]];
-//        self.nameLabel.text = [NSString stringWithFormat:@"%@",_thirdArr[i][@"user"][@"name"]];
-        NSLog(@"arr = %@",_thirdArr);
+        [self.litileImageView setImageWithURL:[NSURL URLWithString:_thirdArr[i][@"user"][@"avatar_l"]]];
+        [self.bigImageView setImageWithURL:[NSURL URLWithString:_thirdArr[i][@"cover_image"]]];
+        self.nameLabel.text = [NSString stringWithFormat:@"%@",_thirdArr[i][@"user"][@"name"]];
+        self.addressLabel.text = [NSString stringWithFormat:@"%@",_thirdArr[i][@"poi"][@"name"]];
+        self.descriptionLabel.text = [NSString stringWithFormat:@"%@",_thirdArr[i][@"text"]];
+        self.activityLabel.text = [NSString stringWithFormat:@"%@",_thirdArr[i][@"target"][@"title"]];
+
+        
 //-----------------------每个tempView添加一个手势-----------------------
         self.tempView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-        [self.tempView  addGestureRecognizer:tapGesture];
-        
-        
+        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+        [self.tempView  addGestureRecognizer:_tapGesture];
         
     }
     
-    
+
     
 }
 - (void)tapAction:(UITapGestureRecognizer *)sender
 {
-    [self.thirdDelegate thirdChangePage];
-}
+//    NSLog(@"View = %@",sender.self.view);
+    NSInteger indext = (sender.self.view.frame.origin.x - 5) / (sender.self.view.frame.size.width + 5);
+    [self.thirdDelegate thirdChangePageBySelected:indext];
 
+}
 
 - (void)awakeFromNib {
     // Initialization code

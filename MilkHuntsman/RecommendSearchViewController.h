@@ -10,4 +10,5 @@
 
 @interface RecommendSearchViewController : BaseViewController
 
+
 @end

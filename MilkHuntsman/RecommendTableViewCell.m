@@ -18,10 +18,10 @@
     }
     return self;
 }
+
 - (void)addAllViews
 {
-//    self.urlArray = [NSMutableArray array];
-//    [self.urlArray addObject:_model.avatar_l];
+
     self.recommendScrollView = [UIScrollView new];
     [self.contentView addSubview:self.recommendScrollView];
 
@@ -40,17 +40,15 @@
         self.tempView = [[UIView alloc] initWithFrame:CGRectMake(kWidth * i + 5, 5, kWidth - 5, kHeight)];
         self.tempView.layer.cornerRadius = 10;
         self.tempView.layer.masksToBounds = YES;
-        self.tempView.backgroundColor = [UIColor grayColor];
+        self.tempView.backgroundColor = [UIColor whiteColor];
         [self.recommendScrollView addSubview:self.tempView];
-        
+        self.recommendScrollView.backgroundColor = [UIColor whiteColor];
 //-------------------在tempView上添加imageView-------------
         self.recommendImageView = [UIImageView new];
         self.recommendImageView.frame = CGRectMake(0, 0, kWidth - 5, kHeight - 80);
-//        [self.recommendImageView setImageWithURL:[NSURL URLWithString:self.model.avatar_l]];
-        [self.recommendImageView setImageWithURL:[NSURL URLWithString:_dataArr[i][@"avatar_l"]]];
         self.recommendImageView.layer.cornerRadius = 5;
         self.recommendImageView.layer.masksToBounds = YES;
-        self.recommendImageView.backgroundColor = [UIColor redColor];
+        self.recommendImageView.backgroundColor = [UIColor clearColor];
         [self.tempView addSubview:self.recommendImageView];
         
         
@@ -59,17 +57,19 @@
         self.recommendMoneyLabel = [UILabel new];
         self.recommendDescriptionLabel.frame = CGRectMake(0, CGRectGetMaxY(self.recommendImageView.frame), kWidth - 5, 50);
         self.recommendMoneyLabel.frame = CGRectMake(CGRectGetMidX(self.recommendDescriptionLabel.frame), CGRectGetMaxY(self.recommendDescriptionLabel.frame), kWidth / 2, 30);
-        self.recommendDescriptionLabel.backgroundColor = [UIColor greenColor];
-        self.recommendMoneyLabel.backgroundColor = [UIColor cyanColor];
+        self.recommendDescriptionLabel.backgroundColor = [UIColor clearColor];
+        self.recommendMoneyLabel.backgroundColor = [UIColor clearColor];
         [self.tempView addSubview:self.recommendDescriptionLabel];
         [self.tempView addSubview:self.recommendMoneyLabel];
         
         
+//--------------------赋值---------------------
+
         
-//        _recommendDescriptionLabel.text = [NSString stringWithFormat:@"%@",_model.product_title];
-//        _recommendMoneyLabel.text = [NSString stringWithFormat:@"¥%@",_model.goodcomment_rate];
-        _recommendDescriptionLabel.text = _dataArr[i][@"product_title"];
-        _recommendMoneyLabel.text = [NSString stringWithFormat:@"¥%@",_dataArr[i][@"product_id"]];
+        
+        [self.recommendImageView setImageWithURL:[NSURL URLWithString:_dataArr[0][i][@"title_page"]]];
+        _recommendDescriptionLabel.text = _dataArr[0][i][@"title"];
+        _recommendMoneyLabel.text = [NSString stringWithFormat:@"¥%@",_dataArr[0][i][@"price"]];
         self.recommendMoneyLabel.textAlignment = NSTextAlignmentCenter;
         self.recommendDescriptionLabel.font = [UIFont systemFontOfSize:14.0];
         self.recommendDescriptionLabel.numberOfLines = 0;
@@ -85,24 +85,22 @@
     
 }
 //手势的触发方法
--(void)tapAction:(UITapGestureRecognizer *)sender
+- (void)tapAction:(UITapGestureRecognizer *)sender
 {
     
-    [self.firstDelegate firstChangePage];
+//    NSLog(@"View = %@",sender.self.view);
+    NSInteger indext = (sender.self.view.frame.origin.x - 5) / (sender.self.view.frame.size.width + 5);
+    [self.firstDelegate firstChangePageByIndext:indext];
+
    
 }
 #pragma mark -- 赋值
--(void)setModel:(RecommendModel *)model
+- (void)setModel:(RecommendModel *)model
 {
-//    NSLog(@"model = %@",model);
+
     if (_model != model) {
         _model = nil;
         _model = model;
-//        [_recommendImageView setImageWithURL:[NSURL URLWithString:model.avatar_l]];
-//        _recommendDescriptionLabel.text = [NSString stringWithFormat:@"%@",model.product_title];
-//        _recommendMoneyLabel.text = [NSString stringWithFormat:@"¥%@",model.goodcomment_rate];
-//        NSLog(@"url = %@",model.avatar_l);
-//        NSLog(@"%@",_model);
         
     }
 }

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^passValueBlock)(NSString *);
+
 @interface CityViewController : UIViewController
+
+@property (nonatomic, copy) passValueBlock passString;
 
 @end

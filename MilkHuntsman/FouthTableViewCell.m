@@ -9,7 +9,8 @@
 #import "FouthTableViewCell.h"
 
 @implementation FouthTableViewCell
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -17,7 +18,8 @@
     }
     return self;
 }
--(void)addAllViews
+
+- (void)addAllViews
 {
     self.bigView = [UIView new];
     self.bigImageView = [UIImageView new];
@@ -33,15 +35,16 @@
     [self.bigView addSubview:self.titleLabel];
     [self.bigImageView addSubview:self.litileView];
     [self.litileView addSubview:self.litileImageView];
-    self.bigView.backgroundColor = [UIColor grayColor];
-    self.bigImageView.backgroundColor = [UIColor redColor];
-    self.litileImageView.backgroundColor = [UIColor yellowColor];
-    self.litileView.backgroundColor = [UIColor greenColor];
-    self.addressLabel.backgroundColor = [UIColor blueColor];
-    self.priceLabel.backgroundColor = [UIColor cyanColor];
-    self.titleLabel.backgroundColor = [UIColor purpleColor];
+    self.bigView.backgroundColor = [UIColor whiteColor];
+    self.bigImageView.backgroundColor = [UIColor clearColor];
+    self.litileImageView.backgroundColor = [UIColor clearColor];
+    self.litileView.backgroundColor = [UIColor clearColor];
+    self.addressLabel.backgroundColor = [UIColor clearColor];
+    self.priceLabel.backgroundColor = [UIColor clearColor];
+    self.titleLabel.backgroundColor = [UIColor clearColor];
 }
--(void)layoutSubviews
+
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     NSInteger kWidth = self.contentView.frame.size.width;
@@ -54,8 +57,22 @@
     self.addressLabel.frame = CGRectMake(5, CGRectGetMaxY(self.titleLabel.frame), kWidth - 90, 35);
     self.priceLabel.frame = CGRectMake(kWidth - 75, CGRectGetMaxY(self.titleLabel.frame), 55, 35);
     self.litileView.layer.cornerRadius = self.litileView.bounds.size.width/ 2;
+    self.priceLabel.tintColor = [UIColor redColor];
     self.litileView.layer.masksToBounds = YES;
+    
 }
+//--------------------赋值--------------------
+- (void)setRecommendmodel:(RecommendModel *)recommendmodel
+{
+        _recommendmodel = recommendmodel;
+        [_bigImageView setImageWithURL:[NSURL URLWithString:_recommendmodel.title_page]];
+        [_litileImageView setImageWithURL:[NSURL URLWithString:_recommendmodel.user[@"avatar_l"]]];
+        _titleLabel.text = [NSString stringWithFormat:@"%@",_recommendmodel.title];
+        _priceLabel.text = [NSString stringWithFormat:@"¥%@",_recommendmodel.price];
+        _addressLabel.text = [NSString stringWithFormat:@"%@ · %@人喜欢",_recommendmodel.address,_recommendmodel.like_count];
+
+}
+
 - (void)awakeFromNib {
     // Initialization code
 }

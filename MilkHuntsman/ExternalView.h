@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ExternalView : UIView<UITableViewDataSource,UITableViewDelegate>
+
 @property (nonatomic, strong) UITableView *xternalTableView;
 @property (nonatomic, strong) NSMutableArray *xternalCityArr;
+
 @end
